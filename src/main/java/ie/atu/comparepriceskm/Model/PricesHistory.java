@@ -10,15 +10,18 @@ import lombok.Data;
 @AllArgsConstructor
 public class PricesHistory {
 
-    @NotBlank(message = "Station name is required")
+    // Which stations price changed
     private String stationName;
 
-    @DecimalMin(value = "1.0", message = "Petrol price must be more than or equal to €1")
-    private double petrolPrice;
+    // Whether its petrol or diesel
+    private String fuelType;
 
-    @DecimalMin(value = "1.0", message = "Diesel price must be more than or equal to €1")
-    private double dieselPrice;
+    // This is the original price
+    private double oldPrice;
 
-    @NotBlank(message = "Location is required")
-    private String location;
+    // stores the new price higher or lower
+    private double newPrice;
+
+    // See if its gone up or down
+    private String changeType;
 }
