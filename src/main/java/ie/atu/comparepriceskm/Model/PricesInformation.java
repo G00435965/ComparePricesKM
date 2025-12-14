@@ -9,16 +9,14 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class PricesInformation {
+
     @NotBlank(message = "Station name is required")
     private String stationName;
 
-    @DecimalMin(value = "1.0", message = "Petrol price must be more than or equal to €1")
-    private double petrolPrice;
+    @NotBlank(message = "Fuel type is required")
+    private String fuelType;   // Petrol or Diesel
 
-    @DecimalMin(value = "1.0", message = "Diesel price must be more than or equal to €1")
-    private double dieselPrice;
-
-    @NotBlank(message = "Location is required")
-    private String location;
+    @DecimalMin(value = "1.0", message = "Fuel price must be more than or equal to €1")
+    private double price;
 
 }
