@@ -1,7 +1,12 @@
 package ie.atu.comparepriceskm.Controller;
 
 
+import ie.atu.comparepriceskm.Model.PricesHistory;
+import ie.atu.comparepriceskm.Model.PricesInformation;
+import ie.atu.comparepriceskm.Service.PricesService;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/prices")
@@ -14,17 +19,17 @@ public class PricesController {
     }
 
     @PostMapping("/add")
-    public PriceInformation addPrice(@RequestBody PriceInformation price) {
+    public PricesInformation addPrice(@RequestBody PricesInformation price) {
         return service.addOrUpdate(price);
     }
 
     @GetMapping("/getAll")
-    public List<PriceInformation> getAllPrices() {
+    public List<PricesInformation> getAllPrices() {
         return service.getAll();
     }
 
     @GetMapping("/history")
-    public List<PriceHistory> getHistory() {
+    public List<PricesHistory> getHistory() {
         return service.getHistory();
     }
 }
