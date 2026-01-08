@@ -1,39 +1,47 @@
 package ie.atu.comparepriceskm.Controller;
 
 
-import ie.atu.comparepriceskm.Model.PricesHistory;
-import ie.atu.comparepriceskm.Model.PricesInformation;
+import ie.atu.comparepriceskm.Model.FuelStation;
 import ie.atu.comparepriceskm.Service.PricesService;
-import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/prices")
+@RequestMapping("/prices")
 public class PricesController {
 
-    private final PricesService service; //connects controller to service
+    private final PricesService pricesService;
 
-    public PricesController(PricesService service) {
-        this.service = service;
+    // Constructor injection (lab style)
+    public PricesController(PricesService pricesService) {
+        this.pricesService = pricesService;
     }
 
-    //adding prices
-    @PostMapping("/add")
-    public PricesInformation addPrice(@Valid @RequestBody PricesInformation price) {
-        return service.addOrUpdate(price);
+    // Get all fuel stations
+    @GetMapping
+    public List<FuelStation> getAllStations() {
+        return pricesService.getAllStations();
     }
 
-    //returns all prices
-    @GetMapping("/getAll")
-    public List<PricesInformation> getAllPrices() {
-        return service.getAll();
+    // Get stations by location
+    // Example: /prices/location/Galway
+    @GetMapping("/location/{location}")
+    public List<FuelStation> getStationsByLocation(@PathVariable String location) {
+        return pricesService.getStationsByLocation(location);
     }
 
-    //similar to logs it just returns the history of the prices
-    @GetMapping("/history")
-    public List<PricesHistory> getHistory() {
-        return service.getHistory();
+    // Get cheapest petrol stations
+    // Example: /prices/cheapest/petrol
+    @GetMapping("/cheapest/petrol")
+    public List<FuelStation> getCheapestPetrol() {
+        return pricesService.getCheapestPetrol();
+    }
+
+    // Get cheapest diesel stations
+    // Example: /prices/cheapest/diesel
+    @GetMapping("/cheapest/diesel")
+    public List<FuelStation> getCheapestDiesel() {
+        return pricesService.getCheapestDiesel();
     }
 }
