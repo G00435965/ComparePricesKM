@@ -1,72 +1,38 @@
 package ie.atu.comparepriceskm.Service;
 
-
-import ie.atu.comparepriceskm.Model.PricesHistory;
-import ie.atu.comparepriceskm.Model.PricesInformation;
+import ie.atu.comparepriceskm.Model.FuelStation;
+import ie.atu.comparepriceskm.Repository.FuelStationRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class PricesService {
 
-    private final List<PricesInformation> prices = new ArrayList<>(); //stores current prices
-    private final List<PricesHistory> history = new ArrayList<>(); //stores history of prices
+    private final FuelStationRepository fuelStationRepository;
 
-
-    public List<PricesInformation> getAll() {
-        return prices;
+    // Constructor injection (lab-approved style)
+    public PricesService(FuelStationRepository fuelStationRepository) {
+        this.fuelStationRepository = fuelStationRepository;
     }
 
-    public List<PricesHistory> getHistory() {
-        return history;
+    // Get all fuel stations
+    public List<FuelStation> getAllStations() {
+        return fuelStationRepository.findAll();
     }
 
-
-// this is for adding/ updating prices
-    public PricesInformation addOrUpdate(PricesInformation newPrice) {
-
-        for (PricesInformation existing : prices) { //this will check the prices
-
-            if (existing.getStationName().equalsIgnoreCase(newPrice.getStationName()) //if the station exists
-                    && existing.getFuelType().equalsIgnoreCase(newPrice.getFuelType())) { //if the fuel type exists
-
-                if (newPrice.getPrice() > existing.getPrice()) {
-                    saveHistory(existing, newPrice, "Price has gone UP"); //checks if the new price is higher than the original one
-                }
-                else if (newPrice.getPrice() < existing.getPrice()) {
-                    saveHistory(existing, newPrice, "Price has gone DOWN"); //checks if the new price is lower than the original one
-                }
-
-                existing.setPrice(newPrice.getPrice());
-                return existing; //returns the updated price
-            }
-        }
-
-        prices.add(newPrice);
-        return newPrice;
+    // Get stations by location
+    public List<FuelStation> getStationsByLocation(String location) {
+        return fuelStationRepository.findByLocationIgnoreCase(location);
     }
 
-    //for recording price change and sending it to the history list.
-    private void saveHistory(PricesInformation oldPrice,
-                             PricesInformation newPrice,
-                             String changeType) {
-
-
-
-        PricesHistory record = new PricesHistory(
-                oldPrice.getStationName(),   // which station
-                oldPrice.getFuelType(),      // petrol or diesel
-                oldPrice.getPrice(),         // old price
-                newPrice.getPrice(),         // new price
-                changeType                  // prices UP or DOWN
-        );
-
-        // this is for recording the history
-        history.add(record);
+    // Get cheapest petrol stations
+    public List<FuelStation> getCheapestPetrol() {
+        return fuelStationRepository.findAllByOrderByPetrolPriceAsc();
     }
 
-
-
+    // Get cheapest diesel stations
+    public List<FuelStation> getCheapestDiesel() {
+        return fuelStationRepository.findAllByOrderByDieselPriceAsc();
+    }
 }
