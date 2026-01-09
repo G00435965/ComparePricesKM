@@ -10,7 +10,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class PricesInformation {
 
-    @NotBlank(message = "Station name is required")
+    @NotBlank(message = "The station name is required")
     private String stationName;
 
     @NotBlank(message = "Fuel type is required")
