@@ -1,7 +1,7 @@
 package ie.atu.comparepriceskm.Controller;
 
+import ie.atu.comparepriceskm.Model.FuelStation;
 import ie.atu.comparepriceskm.Service.PricesService;
-import ie.atu.comparepriceskm.dto.FuelStationResponseDTO;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,22 +17,22 @@ public class PricesController {
     }
 
     @GetMapping
-    public List<FuelStationResponseDTO> getAllStations() {
+    public List<FuelStation> getAllStations() {
         return pricesService.getAllStations();
     }
 
     @GetMapping("/location/{location}")
-    public List<FuelStationResponseDTO> getStationsByLocation(@PathVariable String location) {
+    public List<FuelStation> getStationsByLocation(@PathVariable String location) {
         return pricesService.getStationsByLocation(location);
     }
 
     @GetMapping("/cheapest/petrol")
-    public List<FuelStationResponseDTO> getCheapestPetrol() {
+    public List<FuelStation> getCheapestPetrol() {
         return pricesService.getCheapestPetrol();
     }
 
     @GetMapping("/cheapest/diesel")
-    public List<FuelStationResponseDTO> getCheapestDiesel() {
+    public List<FuelStation> getCheapestDiesel() {
         return pricesService.getCheapestDiesel();
     }
 }
