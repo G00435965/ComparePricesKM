@@ -1,8 +1,7 @@
 package ie.atu.comparepriceskm.Controller;
 
-
-import ie.atu.comparepriceskm.Model.FuelStation;
 import ie.atu.comparepriceskm.Service.PricesService;
+import ie.atu.comparepriceskm.dto.FuelStationResponseDTO;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,35 +12,27 @@ public class PricesController {
 
     private final PricesService pricesService;
 
-    // Constructor injection (lab style)
     public PricesController(PricesService pricesService) {
         this.pricesService = pricesService;
     }
 
-    // Get all fuel stations
     @GetMapping
-    public List<FuelStation> getAllStations() {
+    public List<FuelStationResponseDTO> getAllStations() {
         return pricesService.getAllStations();
     }
 
-    // Get stations by location
-    // Example: /prices/location/Galway
     @GetMapping("/location/{location}")
-    public List<FuelStation> getStationsByLocation(@PathVariable String location) {
+    public List<FuelStationResponseDTO> getStationsByLocation(@PathVariable String location) {
         return pricesService.getStationsByLocation(location);
     }
 
-    // Get cheapest petrol stations
-    // Example: /prices/cheapest/petrol
     @GetMapping("/cheapest/petrol")
-    public List<FuelStation> getCheapestPetrol() {
+    public List<FuelStationResponseDTO> getCheapestPetrol() {
         return pricesService.getCheapestPetrol();
     }
 
-    // Get cheapest diesel stations
-    // Example: /prices/cheapest/diesel
     @GetMapping("/cheapest/diesel")
-    public List<FuelStation> getCheapestDiesel() {
+    public List<FuelStationResponseDTO> getCheapestDiesel() {
         return pricesService.getCheapestDiesel();
     }
 }
